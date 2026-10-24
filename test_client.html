@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>CampusHub Canlı Test Arayüzü</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f9; margin: 40px; }
+        h2 { color: #333; }
+        #akim { 
+            height: 400px; 
+            overflow-y: scroll; 
+            background: #1e1e1e; 
+            color: #00ff00; 
+            padding: 15px; 
+            font-family: monospace; 
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .satir { margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+    </style>
+</head>
+<body>
+    <h2>CampusHub Canlı Veri Akışı (Beyza Arayüzü)</h2>
+    <div id="akim"></div>
+
+    <script>
+        // Begüm ve İrem'in kurduğu WebSocket sunucusuna bağlanıyoruz
+        const socket = new WebSocket("ws://localhost:8080/ws");
+        const akimDiv = document.getElementById("akim");
+
+        socket.onopen = () => {
+            console.log("WebSocket bağlantısı başarılı!");
+        };
+
+        socket.onmessage = (event) => {
+            // Gelen JSON verisini parse et
+            const veri = JSON.parse(event.data);
+            
+            const satir = document.createElement("div");
+            satir.className = "satir";
+            satir.textContent = `⚡ [CANLI] Kullanıcı ID: ${veri.UserID} | Ürün ID: ${veri.EventID} | İşlem: ${veri.Action}`;
+            
+            akimDiv.appendChild(satir);
+            
+            // Otomatik olarak en alta kaydır
+            akimDiv.scrollTop = akimDiv.scrollHeight;
+        };
+
+        socket.onerror = (error) => {
+            console.error("WebSocket hatası:", error);
+        };
+    </script>
+</body>
+</html>
