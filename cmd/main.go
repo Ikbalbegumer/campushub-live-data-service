@@ -1,11 +1,11 @@
 package main
 
 import (
-	"campushub-live-data/internal/stream"
 	"fmt"
 	"log"
 	"net/http"
 
+	"campushub-live-data/internal/stream"
 	"github.com/gorilla/websocket"
 )
 
@@ -66,7 +66,7 @@ func main() {
 	// 1. Sağlık Kontrolü Uç Noktası
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK - Servis ayakta!"))
+		w.Write([]byte("OK - Servis ayakta ve veri akisina hazir!"))
 	})
 
 	// 2. WebSocket Bağlantı Noktası (Arayüzün bağlandığı adres)
@@ -78,11 +78,15 @@ func main() {
 	// 4. İrem'in Veri Akış Motorunu Arka Planda Başlat (Saniyede 5 veri)
 	go stream.StartDataStream("data/events_converted.csv", 5, eventChan)
 
-	// 5. Kanaldan gelen verileri yakalayıp hem terminale bas hem de broadcast kanalına aktar
+	// 5. SİSTEMLERİN BİRLEŞTİĞİ NOKTA
+	// Kanaldan gelen verileri yakalayıp hem terminale bas hem de broadcast kanalına aktar
 	go func() {
 		for e := range eventChan {
+			// Terminalden akışı takip etmek için log
 			fmt.Printf("⚡ CANLI: %s kullanıcısı %s ürününü %s yaptı.\n", e.UserID, e.EventID, e.Action)
-			broadcast <- e // WebSocket'e bağlı olan tarayıcılara fırlat
+			
+			// WebSocket'e bağlı olan tüm tarayıcılara fırlat
+			broadcast <- e 
 		}
 	}()
 
