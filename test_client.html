@@ -20,12 +20,12 @@
     </style>
 </head>
 <body>
-    <h2>CampusHub Canlı Veri Akışı (Beyza Arayüzü)</h2>
+    <h2>CampusHub Canlı Veri Akışı</h2>
     <div id="akim"></div>
 
     <script>
         // Begüm ve İrem'in kurduğu WebSocket sunucusuna bağlanıyoruz
-        const socket = new WebSocket("ws://localhost:8080/ws");
+        const socket = new WebSocket("ws://127.0.0.1:8080/ws");
         const akimDiv = document.getElementById("akim");
 
         socket.onopen = () => {

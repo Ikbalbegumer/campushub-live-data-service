@@ -1,0 +1,11 @@
+timestamp,userId,eventId,action
+1700000000,user_1,event_101,VIEW
+1700000002,user_2,event_102,CLICK
+1700000005,user_1,event_101,REGISTER
+1700000008,user_3,event_105,VIEW
+1700000010,user_4,event_102,VIEW
+1700000012,user_2,event_102,REGISTER
+1700000015,user_5,event_101,CLICK
+1700000018,user_1,event_101,CANCEL
+1700000020,user_6,event_106,VIEW
+1700000022,user_3,event_105,REGISTERgit checkout -b feature/irem-veri-isleme
