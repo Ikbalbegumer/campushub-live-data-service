@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"campushub-live-data/internal/stream"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -85,9 +84,9 @@ func main() {
 		for e := range eventChan {
 			// Terminalden akışı takip etmek için log
 			fmt.Printf("⚡ CANLI: %s kullanıcısı %s ürününü %s yaptı.\n", e.UserID, e.EventID, e.Action)
-
+			
 			// WebSocket'e bağlı olan tüm tarayıcılara fırlat
-			broadcast <- e
+			broadcast <- e 
 		}
 	}()
 
